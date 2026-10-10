@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // 1. Users collection
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || resource.data.userId == request.auth.uid);
+      allow list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(userId) && request.resource.data.userId == request.auth.uid;
+      allow update: if isOwner(userId) && request.resource.data.userId == request.auth.uid;
+      allow delete: if isOwner(userId);
+    }
+
+    // 2. Profiles collection
+    match /profiles/{profileId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(profileId) && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && (resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid);
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 3. Documents collection
+    match /documents/{documentId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(documentId);
+      allow update, delete: if isSignedIn();
+    }
+
+    // 4. Chat Messages collection
+    match /chats/{chatId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(chatId) && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 5. Voice Sessions collection
+    match /voice_sessions/{sessionId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(sessionId) && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 6. Scenarios collection (FutureTwin)
+    match /scenarios/{scenarioId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(scenarioId);
+      allow update, delete: if isSignedIn();
+    }
+
+    // 7. Interview Sessions (InterviewMirror)
+    match /interviews/{interviewId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(interviewId);
+      allow update, delete: if isSignedIn();
+    }
+
+    // 8. Learning Plans (Gap2Growth)
+    match /learning_plans/{planId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(planId);
+      allow update, delete: if isSignedIn();
+    }
+  }
+}

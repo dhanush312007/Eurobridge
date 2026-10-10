@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* EUROBRIDGE ATELIER — Luxury European Editorial Design System */
+    --atelier-canvas: #0B0D0C;
+    --atelier-surface-deep: #111413;
+    --atelier-surface-card: #161A18;
+    --atelier-surface-hover: #1D2220;
+    
+    --atelier-text-ivory: #FAF6F0;
+    --atelier-text-cream: #EDE8DE;
+    --atelier-text-muted: #9C968A;
+    --atelier-text-dim: #6B665D;
+
+    --atelier-champagne: #C5A880;
+    --atelier-champagne-light: #DFC9AB;
+    --atelier-champagne-dim: rgba(197, 168, 128, 0.15);
+
+    --atelier-border-subtle: rgba(237, 232, 222, 0.08);
+    --atelier-border-active: rgba(197, 168, 128, 0.35);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--atelier-canvas);
+    color: var(--atelier-text-cream);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, .font-serif-display {
+    font-family: 'Newsreader', 'Cormorant Garamond', Georgia, serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "onum";
+  }
+
+  .font-cormorant {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  code, pre, .font-mono-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Thin Architectural Dividers */
+  .architectural-line {
+    background: linear-gradient(90deg, transparent 0%, rgba(237, 232, 222, 0.12) 20%, rgba(197, 168, 128, 0.3) 50%, rgba(237, 232, 222, 0.12) 80%, transparent 100%);
+    height: 1px;
+  }
+
+  .architectural-line-vertical {
+    background: linear-gradient(180deg, transparent 0%, rgba(237, 232, 222, 0.12) 20%, rgba(197, 168, 128, 0.3) 50%, rgba(237, 232, 222, 0.12) 80%, transparent 100%);
+    width: 1px;
+  }
+
+  /* Custom Luxury Scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B0D0C;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242927;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C5A880;
+  }
+}

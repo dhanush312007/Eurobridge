@@ -1,0 +1,119 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered Eurobridge user profile",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["APPLICANT", "CONSULTANT", "ADMIN"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "ApplicantProfile": {
+      "title": "ApplicantProfile",
+      "description": "Structured German applicant credential dossier",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "targetPathway": { "type": "string", "enum": ["HIGHER_EDUCATION", "AUSBILDUNG", "EMPLOYMENT"] },
+        "targetIntake": { "type": "string", "maxLength": 64 },
+        "highestDegree": { "type": "string", "maxLength": 128 },
+        "indianInstitution": { "type": "string", "maxLength": 256 },
+        "anabinStatus": { "type": "string", "enum": ["H+", "H+/-", "H-"] },
+        "obtainedScore": { "type": "number" },
+        "maximumScore": { "type": "number" },
+        "minimumPassingScore": { "type": "number" },
+        "germanLevel": { "type": "string", "maxLength": 8 },
+        "englishScore": { "type": "string", "maxLength": 32 },
+        "yearsOfWorkExperience": { "type": "number" },
+        "consultantStatus": { "type": "string", "enum": ["NEW", "UNDER_REVIEW", "REVISIONS_REQUESTED", "VISA_ENDORSED"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fullName", "email", "targetPathway"]
+    },
+    "DocumentRecord": {
+      "title": "DocumentRecord",
+      "description": "Uploaded credential metadata with OCR verification status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "applicantId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "maxLength": 64 },
+        "fileName": { "type": "string", "maxLength": 256 },
+        "fileSizeBytes": { "type": "number" },
+        "mimeType": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["PENDING", "PARSED", "VERIFIED", "FLAGGED"] },
+        "uploadedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "applicantId", "type", "fileName", "status"]
+    },
+    "ScenarioRecord": {
+      "title": "ScenarioRecord",
+      "description": "FutureTwin simulated scenario",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "applicantId": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "applicantId", "name"]
+    },
+    "InterviewRecord": {
+      "title": "InterviewRecord",
+      "description": "InterviewMirror practice session and evaluation report",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "applicantId": { "type": "string" },
+        "pathway": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "applicantId", "pathway"]
+    },
+    "LearningPlanRecord": {
+      "title": "LearningPlanRecord",
+      "description": "Gap2Growth growth plan and progress",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "applicantId": { "type": "string" },
+        "targetSkill": { "type": "string" }
+      },
+      "required": ["id", "applicantId", "targetSkill"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Registered Eurobridge users"
+    },
+    "/profiles/{profileId}": {
+      "schema": "ApplicantProfile",
+      "description": "Applicant dossiers and credentials"
+    },
+    "/documents/{documentId}": {
+      "schema": "DocumentRecord",
+      "description": "Uploaded credential records"
+    },
+    "/scenarios/{scenarioId}": {
+      "schema": "ScenarioRecord",
+      "description": "FutureTwin simulated scenarios"
+    },
+    "/interviews/{interviewId}": {
+      "schema": "InterviewRecord",
+      "description": "InterviewMirror sessions"
+    },
+    "/learning_plans/{planId}": {
+      "schema": "LearningPlanRecord",
+      "description": "Gap2Growth learning plans"
+    }
+  }
+}

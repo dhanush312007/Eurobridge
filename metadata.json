@@ -1,0 +1,11 @@
+{
+  "name": "Remix EUROBRIDGE AI",
+  "description": "Signature Intelligence Suite for German Higher Education, Ausbildung, and Skilled Employment pathways featuring FutureTwin, InterviewMirror, LifeLens, and Gap2Growth.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
